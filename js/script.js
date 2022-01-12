@@ -1,26 +1,140 @@
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const calculatorScreen = document.querySelector('.calculator-screen');
+const numericalButtons = document.querySelectorAll('.number-button');
+const operatorButtons = document.querySelectorAll('.operator-button');
+const equalButton = document.querySelector('.equal-button');
 
-const calculatorOperation = (a, b, operator) => {
+// value and operator initialization
+let firstValue = '',
+  secondValue = '',
+  previousOperator = '',
+  currentOperator = '',
+  screenAnswer = '';
+
+let secondValueInput = false,
+  secondOperatorInput = false;
+
+// mathematical functions
+const add = (a, b) => parseInt(a) + parseInt(b);
+const subtract = (a, b) => parseInt(a) - parseInt(b);
+const multiply = (a, b) => parseInt(a) * parseInt(b);
+const divide = (a, b) => parseInt(a) / parseInt(b);
+
+// updates screen when a number is pressed
+const incrementValue = (value) => {
+  console.log(value)
+  if (secondValueInput === false) {
+    firstValue += value;
+    calculatorScreen.textContent = firstValue;
+  } else {
+    secondValue += value;
+    calculatorScreen.textContent = secondValue;
+  }
+}
+
+// checks whether an operation is used for the first or second time
+const operationCheck = (answer) => {
+  if (secondOperatorInput === false) {
+    secondOperatorInput = true;
+    secondValueInput = true;
+  } else {
+    firstValue = answer;
+    screenAnswer = answer;
+    calculatorScreen.textContent = firstValue;
+    secondValue = '';
+    secondOperatorInput = true;
+    secondValueInput = true;
+  }
+}
+
+// performs the specified operation
+const calculatorOperation = (operator, equalSignButton = false) => {
+  currentOperator = operator;
+  let answer;
   switch (operator) {
     case '+':
-      console.log(add(a, b));
+      if (firstValue === '') {
+        break;
+      }
+      answer = add(firstValue, secondValue)
+      if (!equalSignButton) {
+        if (secondValue === '') {
+          operationCheck(add(firstValue, screenAnswer))
+        } else {
+          operationCheck(answer);
+        }
+      } else {
+        screenAnswer = answer;
+      }
       break;
+
     case '-':
-      console.log(subtract(a, b));
+      if (firstValue === '') {
+        break;
+      }
+      answer = subtract(firstValue, secondValue);
+      if (!equalSignButton) {
+        if (secondValue === '') {
+          operationCheck(subtract(firstValue, screenAnswer))
+        } else {
+          operationCheck(answer);
+        }
+      } else {
+        screenAnswer = answer;
+      }
       break;
+
     case '*':
-      console.log(multiply(a, b));
+      if (firstValue === '') {
+        break;
+      }
+      answer = multiply(firstValue, secondValue)
+      if (!equalSignButton) {
+        if (secondValue === '') {
+          operationCheck(multiply(firstValue, screenAnswer));
+        } else {
+          operationCheck(answer);
+        }
+      } else {
+        screenAnswer = answer;
+      }
       break;
+
     case '/':
-      console.log(divide(a, b));
+      if (firstValue === '') {
+        break;
+      }
+      answer = divide(firstValue, secondValue)
+      if (!equalSignButton) {
+        if (secondValue === '') {
+          operationCheck(divide(firstValue, screenAnswer));
+        } else {
+          operationCheck(answer);
+        }
+      } else {
+        screenAnswer = answer;
+      }
       break;
   }
 }
 
-calculatorOperation(6,2,'+');
-calculatorOperation(6,2,'-');
-calculatorOperation(6,2,'*');
-calculatorOperation(6,2,'/');
+const calculateAnswer = () => {
+  if (firstValue === '') {
+    return;
+  }
+  calculatorOperation(currentOperator, true);
+  calculatorScreen.textContent = screenAnswer;
+}
+
+numericalButtons.forEach(button => {
+  button.addEventListener('click', e => {
+    incrementValue(e.target.textContent);
+  })
+})
+
+operatorButtons.forEach(button => {
+  button.addEventListener('click', e => {
+    calculatorOperation(e.target.textContent);
+  })
+})
+
+equalButton.addEventListener('click', calculateAnswer);
