@@ -50,11 +50,11 @@ const operationCheck = (answer) => {
 const calculatorOperation = (operator, equalSignButton = false) => {
   currentOperator = operator;
   let answer;
+  if (firstValue === '') {
+    return;
+  }
   switch (operator) {
     case '+':
-      if (firstValue === '') {
-        break;
-      }
       answer = add(firstValue, secondValue)
       if (!equalSignButton) {
         if (secondValue === '') {
@@ -68,9 +68,6 @@ const calculatorOperation = (operator, equalSignButton = false) => {
       break;
 
     case '-':
-      if (firstValue === '') {
-        break;
-      }
       answer = subtract(firstValue, secondValue);
       if (!equalSignButton) {
         if (secondValue === '') {
@@ -84,9 +81,6 @@ const calculatorOperation = (operator, equalSignButton = false) => {
       break;
 
     case '*':
-      if (firstValue === '') {
-        break;
-      }
       answer = multiply(firstValue, secondValue)
       if (!equalSignButton) {
         if (secondValue === '') {
@@ -100,9 +94,6 @@ const calculatorOperation = (operator, equalSignButton = false) => {
       break;
 
     case '/':
-      if (firstValue === '') {
-        break;
-      }
       answer = divide(firstValue, secondValue)
       if (!equalSignButton) {
         if (secondValue === '') {
