@@ -10,13 +10,16 @@ let previousValue = '',
   currentOperator = undefined;
 
 // mathematical functions
-const add = (a, b) => parseInt(a) + parseInt(b);
-const subtract = (a, b) => parseInt(a) - parseInt(b);
-const multiply = (a, b) => parseInt(a) * parseInt(b);
-const divide = (a, b) => parseInt(a) / parseInt(b);
+const add = (a, b) => parseFloat(a) + parseFloat(b);
+const subtract = (a, b) => parseFloat(a) - parseFloat(b);
+const multiply = (a, b) => parseFloat(a) * parseFloat(b);
+const divide = (a, b) => parseFloat(a) / parseFloat(b);
 
 // increments current value
 const incrementValue = (value) => {
+  if (value === '.' && currentValue.includes('.')) {
+    return;
+  }
   currentValue += value;
 }
 
