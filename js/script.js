@@ -2,6 +2,7 @@ const calculatorScreen = document.querySelector('.calculator-screen');
 const numericalButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
 const equalButton = document.querySelector('.equal-button');
+const clearButton = document.querySelector('.clear-button');
 
 // value and operator initialization
 let previousValue = '',
@@ -82,3 +83,10 @@ equalButton.addEventListener('click', () => {
   calculatorOperation();
   updateScreen();
 });
+
+clearButton.addEventListener('click', () => {
+  previousValue = '';
+  currentValue = '';
+  currentOperator = undefined;
+  updateScreen();
+})
