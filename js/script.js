@@ -3,6 +3,7 @@ const numericalButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
 const equalButton = document.querySelector('.equal-button');
 const clearButton = document.querySelector('.clear-button');
+const deleteButton = document.querySelector('.delete-button');
 
 // value and operator initialization
 let previousValue = '',
@@ -21,6 +22,11 @@ const incrementValue = (value) => {
     return;
   }
   currentValue += value;
+}
+
+// deletes recent input
+const deleteRecentInput = () => {
+  currentValue = currentValue.toString().slice(0, -1);
 }
 
 // update screen
@@ -64,7 +70,7 @@ const calculatorOperation = () => {
     default:
       return;
   }
-  currentValue = answer;
+  currentValue = answer.toString();
   currentOperator = undefined;
   previousValue = '';
 }
@@ -93,3 +99,8 @@ clearButton.addEventListener('click', () => {
   currentOperator = undefined;
   updateScreen();
 })
+
+deleteButton.addEventListener('click', () => {
+  deleteRecentInput();
+  updateScreen();
+});
