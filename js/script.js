@@ -4,14 +4,9 @@ const operatorButtons = document.querySelectorAll('.operator-button');
 const equalButton = document.querySelector('.equal-button');
 
 // value and operator initialization
-let firstValue = '',
-  secondValue = '',
-  previousOperator = '',
-  currentOperator = '',
-  screenAnswer = '';
-
-let secondValueInput = false,
-  secondOperatorInput = false;
+let previousValue = '',
+  currentValue = '',
+  currentOperator = undefined;
 
 // mathematical functions
 const add = (a, b) => parseInt(a) + parseInt(b);
@@ -19,113 +14,71 @@ const subtract = (a, b) => parseInt(a) - parseInt(b);
 const multiply = (a, b) => parseInt(a) * parseInt(b);
 const divide = (a, b) => parseInt(a) / parseInt(b);
 
-// updates screen when a number is pressed
+// increments current value
 const incrementValue = (value) => {
-  console.log(value)
-  if (secondValueInput === false) {
-    firstValue += value;
-    calculatorScreen.textContent = firstValue;
-  } else {
-    secondValue += value;
-    calculatorScreen.textContent = secondValue;
-  }
+  currentValue += value;
 }
 
-// checks whether an operation is used for the first or second time
-const operationCheck = (answer) => {
-  if (secondOperatorInput === false) {
-    secondOperatorInput = true;
-    secondValueInput = true;
-  } else {
-    firstValue = answer;
-    screenAnswer = answer;
-    calculatorScreen.textContent = firstValue;
-    secondValue = '';
-    secondOperatorInput = true;
-    secondValueInput = true;
+// update screen
+const updateScreen = () => {
+  calculatorScreen.textContent = currentValue;
+}
+
+// select the operator
+const selectOperator = (operator) => {
+  if (currentValue === '') {
+    return;
   }
+  if (previousValue !== '') {
+    calculatorOperation();
+  }
+  updateScreen();
+  currentOperator = operator;
+  previousValue = currentValue;
+  currentValue = '';
 }
 
 // performs the specified operation
-const calculatorOperation = (operator, equalSignButton = false) => {
-  currentOperator = operator;
+const calculatorOperation = () => {
   let answer;
-  if (firstValue === '') {
+  if (isNaN(parseInt(previousValue)) || isNaN(parseInt(currentValue))) {
     return;
   }
-  switch (operator) {
+  switch (currentOperator) {
     case '+':
-      answer = add(firstValue, secondValue)
-      if (!equalSignButton) {
-        if (secondValue === '') {
-          operationCheck(add(firstValue, screenAnswer))
-        } else {
-          operationCheck(answer);
-        }
-      } else {
-        screenAnswer = answer;
-      }
+      answer = add(previousValue, currentValue);
       break;
-
     case '-':
-      answer = subtract(firstValue, secondValue);
-      if (!equalSignButton) {
-        if (secondValue === '') {
-          operationCheck(subtract(firstValue, screenAnswer))
-        } else {
-          operationCheck(answer);
-        }
-      } else {
-        screenAnswer = answer;
-      }
+      answer = subtract(previousValue, currentValue);
       break;
-
     case '*':
-      answer = multiply(firstValue, secondValue)
-      if (!equalSignButton) {
-        if (secondValue === '') {
-          operationCheck(multiply(firstValue, screenAnswer));
-        } else {
-          operationCheck(answer);
-        }
-      } else {
-        screenAnswer = answer;
-      }
+      answer = multiply(previousValue, currentValue);
       break;
-
     case '/':
-      answer = divide(firstValue, secondValue)
-      if (!equalSignButton) {
-        if (secondValue === '') {
-          operationCheck(divide(firstValue, screenAnswer));
-        } else {
-          operationCheck(answer);
-        }
-      } else {
-        screenAnswer = answer;
-      }
+      answer = divide(previousValue, currentValue);
       break;
+    default:
+      return;
   }
-}
-
-const calculateAnswer = () => {
-  if (firstValue === '') {
-    return;
-  }
-  calculatorOperation(currentOperator, true);
-  calculatorScreen.textContent = screenAnswer;
+  currentValue = answer;
+  currentOperator = undefined;
+  previousValue = '';
 }
 
 numericalButtons.forEach(button => {
-  button.addEventListener('click', e => {
-    incrementValue(e.target.textContent);
+  button.addEventListener('click', () => {
+    incrementValue(button.textContent);
+    updateScreen();
   })
 })
 
 operatorButtons.forEach(button => {
-  button.addEventListener('click', e => {
-    calculatorOperation(e.target.textContent);
+  button.addEventListener('click', () => {
+    selectOperator(button.textContent);
   })
 })
 
-equalButton.addEventListener('click', calculateAnswer);
+equalButton.addEventListener('click', () => {
+  calculatorOperation();
+  updateScreen();
+});
