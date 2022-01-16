@@ -4,6 +4,7 @@ html {
 
 *, *:before, *:after {
 box-sizing: inherit;
+font-family: 'Changa', sans-serif;
 }
 
 body {
@@ -15,48 +16,58 @@ body {
 }
 
 .calculator-container {
-    border: 2px solid red;
-    padding: 3rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    background-color: rgb(59, 70, 66);
+    border-radius: 2rem;
 }
 
 .calculator-screen {
     width: 100%;
     height: 5rem;
-    border: 2px solid red;
     display: flex;
     justify-content: right;
     align-items: center;
+    font-size: 52px;
+    margin-bottom: 1rem;
+    padding-right: 0.25rem;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 8px 0px inset;
+    background-color: rgb(206, 206, 206);
+    border-radius: 0.5rem;
 }
 
 .button-container {
-    display: flex;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(4, 5rem);
+    grid-template-rows: repeat(5, 4rem);
+    font-size: 36px;
+    gap: 0.5rem;
 }
 
-.number-container {
-    width: 75%;
-    display: flex;
-    flex-wrap: wrap;
-    height: 20rem;
+button {
+    font-size: 100%;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border-radius: 0.5rem;
 }
 
-.number-button {
-    width: 33%;
-}
-.clear-button {
-    width: 100%;
+.grid-span-2 {
+    grid-column: span 2;
 }
 
-.operator-container {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
-    height: 20rem;
+.operator-button {
+    background-color: khaki;
 }
 
-.operator-button,
+.clear-button,
+.delete-button,
 .equal-button {
-    height: 100%;
+    background-color: rgb(20, 199, 145);
 }

@@ -21,6 +21,9 @@ const incrementValue = (value) => {
   if (value === '.' && currentValue.includes('.')) {
     return;
   }
+  if (currentValue.length === 10) {
+    return;
+  }
   currentValue += value;
 }
 
@@ -57,15 +60,19 @@ const calculatorOperation = () => {
   switch (currentOperator) {
     case '+':
       answer = add(previousValue, currentValue);
+      answer = Math.round(answer * 10000000000) / 10000000000;
       break;
     case '-':
       answer = subtract(previousValue, currentValue);
+      answer = Math.round(answer * 10000000000) / 10000000000;
       break;
-    case '*':
+    case 'x':
       answer = multiply(previousValue, currentValue);
+      answer = Math.round(answer * 10000000000) / 10000000000;
       break;
-    case '/':
+    case '÷':
       answer = divide(previousValue, currentValue);
+      answer = Math.round(answer * 10000000000) / 10000000000;
       break;
     default:
       return;
